@@ -12,6 +12,7 @@
 
 #include <signal.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 static void	ft_putstr(char *str)
 {
@@ -49,6 +50,11 @@ void	sig_sender(int pid, char c)
 	bit = 0;
 	while (bit < 8)
 	{
+		if (kill(pid, 0) < 0)
+		{
+			ft_putstr("error: invalid pid !\n");
+			exit(1);
+		}
 		if ((c & (1 << bit)) != 0)
 			kill(pid, SIGUSR1);
 		else
