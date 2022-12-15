@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>//
+#include <limits.h>
 #include <signal.h>
 #include <unistd.h>
 
@@ -20,12 +20,11 @@ static void	ft_putstr(char *str)
 		write(1, &*str++, 1);
 }
 
-// à corriger
 int	ft_atoi(const char *str)
 {
-	int						i;
-	int						sign;
-	long long unsigned int	result;
+	int			i;
+	int			sign;
+	long int	result;
 
 	i = 0;
 	sign = 1;
@@ -37,14 +36,9 @@ int	ft_atoi(const char *str)
 			sign = -sign;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
+		if (result != (((result * 10) + (str[i] - '0')) / 10))
+			return ((sign + 1) / -2);
 		result = result * 10 + (str[i++] - '0');
-		if (result > LLONG_MAX)
-		{
-			if (sign > 0)
-				return (-1);
-			else
-				return (0);
-		}
 	}
 	return (sign * result);
 }
@@ -73,11 +67,15 @@ int	main(int ac, char **av)
 	i = 0;
 	if (ac != 3)
 	{
-		ft_putstr("error\n");
+		ft_putstr("error: ./client <pid> <string> \n");
 		return (1);
 	}
 	pid = ft_atoi(av[1]);
-	//secure pid ?
+	if (pid < 1)
+	{
+		ft_putstr("error: invalid pid\n");
+		return (1);
+	}
 	while (av[2][i])
 		sig_sender(pid, av[2][i++]);
 	sig_sender(pid, '\n');
