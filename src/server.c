@@ -60,10 +60,9 @@ static void	sig_handler(int signal)
 		bit = 0;
 		i = 0;
 	}
-
 }
 
-int main(void)
+int	main(void)
 {
 	int	pid;
 
