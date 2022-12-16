@@ -6,12 +6,21 @@
 /*   By: lcoissar <lcoissar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 08:47:15 by lcoissar          #+#    #+#             */
-/*   Updated: 2022/12/15 08:47:15 by lcoissar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 11:01:58 by lcoissar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <signal.h>
+
+static void	ft_bzero(void *ptr, size_t len)
+{
+	while (len > 0)
+	{
+		((char *)ptr)[len - 1] = 0;
+		len--;
+	}
+}
 
 static void	ft_putstr(char *str)
 {
@@ -64,14 +73,17 @@ static void	sig_handler(int signal)
 
 int	main(void)
 {
-	int	pid;
+	int					pid;
+	struct sigaction	act;
 
 	pid = getpid();
 	ft_putstr("pid :");
 	ft_putnbr(pid);
 	ft_putstr("\n");
-	signal(SIGUSR1, &sig_handler);
-	signal(SIGUSR2, &sig_handler);
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = &sig_handler;
+	sigaction(SIGUSR1, &act, NULL);
+	sigaction(SIGUSR2, &act, NULL);
 	while (1)
 		pause();
 	return (0);

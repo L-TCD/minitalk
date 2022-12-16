@@ -6,7 +6,7 @@
 /*   By: lcoissar <lcoissar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 08:47:18 by lcoissar          #+#    #+#             */
-/*   Updated: 2022/12/15 08:47:18 by lcoissar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 11:04:56 by lcoissar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ int	ft_atoi(const char *str)
 void	sig_sender(int pid, char c)
 {
 	int	bit;
+	int	i;
 
 	bit = 0;
+	i = 0;
 	while (bit < 8)
 	{
 		if (kill(pid, 0) < 0)
@@ -59,8 +61,9 @@ void	sig_sender(int pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
 		bit++;
+		while (i++ < 10)
+			usleep(10);
 	}
 }
 
