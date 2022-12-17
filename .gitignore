@@ -9,6 +9,8 @@
 
 # Executables
 *.out
+server
+client
 
 # Temp files
 *.swp

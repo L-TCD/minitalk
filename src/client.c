@@ -46,10 +46,8 @@ int	ft_atoi(const char *str)
 void	sig_sender(int pid, char c)
 {
 	int	bit;
-	int	i;
 
 	bit = 0;
-	i = 0;
 	while (bit < 8)
 	{
 		if (kill(pid, 0) < 0)
@@ -62,8 +60,7 @@ void	sig_sender(int pid, char c)
 		else
 			kill(pid, SIGUSR2);
 		bit++;
-		while (i++ < 10)
-			usleep(10);
+		usleep(200);
 	}
 }
 
